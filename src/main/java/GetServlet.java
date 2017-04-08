@@ -14,7 +14,7 @@ public class GetServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        Map<String, String> users = DBAccessor.getUsers();
+        Map<Integer, String> users = DBAccessor.getUsers();
 
         resp.setContentType("text/html");
 
