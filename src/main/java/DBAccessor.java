@@ -15,7 +15,7 @@ public class DBAccessor {
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/17training", "root", "");
 
-            ResultSet rset = conn.createStatement().executeQuery("SELECT * FROM user");
+            ResultSet rset = conn.createStatement().executeQuery("SELECT * FROM users");
             while (rset.next()) {
                 result.put(rset.getString(1), rset.getString(2));
             }
