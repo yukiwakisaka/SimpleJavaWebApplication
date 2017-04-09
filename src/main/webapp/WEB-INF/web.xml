@@ -5,14 +5,24 @@
    http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
          version="2.4">
 
-    <servlet>
-        <servlet-name>getServlet</servlet-name>
-        <servlet-class>GetServlet</servlet-class>
-    </servlet>
+    <!--<servlet>-->
+        <!--<servlet-name>getServlet</servlet-name>-->
+        <!--<servlet-class>GetServlet</servlet-class>-->
+    <!--</servlet>-->
 
-    <servlet-mapping>
-        <servlet-name>getServlet</servlet-name>
-        <url-pattern>/users</url-pattern>
-    </servlet-mapping>
+    <!--<servlet>-->
+        <!--<servlet-name>postServlet</servlet-name>-->
+        <!--<servlet-class>PostServlet</servlet-class>-->
+    <!--</servlet>-->
+
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>getServlet</servlet-name>-->
+        <!--<url-pattern>/users</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>postServlet</servlet-name>-->
+        <!--<url-pattern>/add-user</url-pattern>-->
+    <!--</servlet-mapping>-->
 
 </web-app>
