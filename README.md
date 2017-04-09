@@ -12,3 +12,6 @@
 
 ## 実行
 `mvn tomcat7:exec`
+
+## パッケージング
+`mvn package`
