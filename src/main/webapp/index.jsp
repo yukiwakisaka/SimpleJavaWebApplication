@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/static/sample.css">
 </head>
 <body>
 <h1>Hello, This is Index!</h1>
