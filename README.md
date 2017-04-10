@@ -3,8 +3,8 @@
 ```
 > create database 17training;
 > use 17training;
-> create table users(ID INT, NAME VARCHAR(20));
-> insert users value(1, "YourName");
+> create table users(ID INT NOT NULL PRIMARY KEY, NAME VARCHAR(20));
+> insert users value(0, "YourName");
 ```
 
 ## 環境変数

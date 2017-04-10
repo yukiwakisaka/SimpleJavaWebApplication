@@ -26,7 +26,7 @@ public class DBAccessor {
 
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
              Statement stmt = conn.createStatement()) {
-            ResultSet rset = stmt.executeQuery("SELECT * FROM users");
+            ResultSet rset = stmt.executeQuery("SELECT * FROM users;");
             while (rset.next()) {
                 result.put(rset.getInt(1), rset.getString(2));
             }
@@ -39,11 +39,11 @@ public class DBAccessor {
         int result;
 
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             // FIXME SQLインジェクション対策 cacheしとく
-             PreparedStatement pstmt = conn.prepareStatement("INSERT USERS VALUE(?, ?)")) {
+             PreparedStatement pstmt = conn.prepareStatement("INSERT USERS VALUE(?, ?);")) {
 
             pstmt.setInt(1, id);
             pstmt.setString(2, name);
+            System.out.println(pstmt.toString());
             result = pstmt.executeUpdate();
         }
         System.out.println(result);
