@@ -1,6 +1,7 @@
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * @author yuki.wakisaka
@@ -13,6 +14,8 @@ public class DBAccessor {
     private static final String URL = System.getProperty("mysql.url", "jdbc:mysql://localhost:3306/17training"); // TODO javaコマンドの引数を取得可能 -Dmysql.url=xxxxxxx
     private static final String USER = System.getProperty("mysql.user", "root");
     private static final String PASSWORD = System.getProperty("mysql.password", "");
+
+    private Logger logger = Logger.getLogger(this.getClass().getSimpleName());
 
 
     public static DBAccessor getInstance() {
@@ -43,10 +46,9 @@ public class DBAccessor {
 
             pstmt.setInt(1, id);
             pstmt.setString(2, name);
-            System.out.println(pstmt.toString());
+            logger.info(pstmt.toString());
             result = pstmt.executeUpdate();
         }
-        System.out.println(result);
         return result;
     }
 }

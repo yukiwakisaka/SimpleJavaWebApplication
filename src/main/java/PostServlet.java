@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 public class PostServlet extends HttpServlet {
 
     private static final DBAccessor dbAccessor = DBAccessor.getInstance();
+
+    private Logger logger = Logger.getLogger(this.getClass().getSimpleName());
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
@@ -58,28 +61,30 @@ public class PostServlet extends HttpServlet {
             e.printStackTrace();
         } catch (SQLException e) {
             exception = e;
-            e.printStackTrace();
-        } catch (NumberFormatException e) {
-            exception = e;
+            logger.warning(e.getMessage());
         }
-
-        PrintWriter out = resp.getWriter();
-        out.println("<!DOCTYPE html>");
-        out.println("<html lang='ja'>");
-        out.println("<body>");
-        if (exception != null){
-            out.println("<p>");
-            out.println(exception);
-            out.println("</p>");
+        if (exception instanceof ClassNotFoundException) {
+            resp.setStatus(500);
+        } else {
+            resp.setStatus(403);
+            try (PrintWriter out = resp.getWriter();) {
+                out.println("<!DOCTYPE html>");
+                out.println("<html lang='ja'>");
+                out.println("<body>");
+                if (exception instanceof SQLException) {
+                    out.println("<p>Update Failed!</p>");
+                    out.println("<p>cause: " + exception.getMessage() + "</p>");
+                }
+                out.println("<h2>");
+                out.println("Added User");
+                out.println("</h2>");
+                out.println("<p>" + id + "</p>");
+                out.println("<p>" + name + "</p>");
+                out.println("<p><a href='/add-user'>Add Another User</a></p>");
+                out.println("<p><a href='/users'>See All Users</a></p>");
+                out.println("</body>");
+                out.println("</html>");
+            }
         }
-        out.println("<h2>");
-        out.println("Added User");
-        out.println("</h2>");
-        out.println("<p>" + id + "</p");
-        out.println("<p>" + name + "</p");
-        out.println("<p><a href='/add-user'>Add Another User</a></p>");
-        out.println("<p><a href='/users'>See All Users</a></p>");
-        out.println("</body>");
-        out.println("</html>");
     }
 }
