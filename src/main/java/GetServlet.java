@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/users")
 public class GetServlet extends HttpServlet {
 
+    private static final DBAccessor dbAccessor = DBAccessor.getInstance();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         Map<Integer, String> users = new HashMap<Integer, String>();
@@ -26,7 +28,7 @@ public class GetServlet extends HttpServlet {
         PrintWriter out = resp.getWriter();
 
         try {
-            users = DBAccessor.getUsers();
+            users = dbAccessor.getUsers();
         } catch (ClassNotFoundException e) {
             exception = e;
             e.printStackTrace();

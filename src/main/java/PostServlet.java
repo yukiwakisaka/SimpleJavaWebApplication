@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/add-user")
 public class PostServlet extends HttpServlet {
 
+    private static final DBAccessor dbAccessor = DBAccessor.getInstance();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         resp.setContentType("text/html; charset=utf-8");
@@ -50,7 +52,7 @@ public class PostServlet extends HttpServlet {
 
 
         try {
-            DBAccessor.setUser(Integer.parseInt(id), name);
+            dbAccessor.setUser(Integer.parseInt(id), name);
         } catch (ClassNotFoundException e) {
             exception = e;
             e.printStackTrace();

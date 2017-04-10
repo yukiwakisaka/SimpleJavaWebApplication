@@ -7,29 +7,46 @@ import java.util.Map;
  */
 public class DBAccessor {
 
-    static final String MYSQL_URL = System.getenv().getOrDefault("MYSQL_URL", "jdbc:mysql://localhost:3306/17training?user=root&password=");
+    private static final DBAccessor instance = new DBAccessor();
 
-    public static Map<Integer, String> getUsers() throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection conn = DriverManager.getConnection(MYSQL_URL);
+    //static final String URL = System.getenv().getOrDefault("URL", "jdbc:mysql://localhost:3306/17training");
+    private static final String URL = System.getProperty("mysql.url", "jdbc:mysql://localhost:3306/17training"); // TODO javaコマンドの引数を取得可能 -Dmysql.url=xxxxxxx
+    private static final String USER = System.getProperty("mysql.user", "root");
+    private static final String PASSWORD = System.getProperty("mysql.password", "");
 
-        ResultSet rset = conn.createStatement().executeQuery("SELECT * FROM users");
+
+    public static DBAccessor getInstance() {
+        return instance;
+    }
+
+    public Map<Integer, String> getUsers() throws ClassNotFoundException, SQLException {
+
+        //Class.forName("com.mysql.jdbc.Driver"); // javaのversionによって要らない
         Map<Integer, String> result = new HashMap<Integer, String>();
-        while (rset.next()) {
-            result.put(rset.getInt(1), rset.getString(2));
-        }
-        conn.close();
 
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             Statement stmt = conn.createStatement()) {
+            ResultSet rset = stmt.executeQuery("SELECT * FROM users");
+            while (rset.next()) {
+                result.put(rset.getInt(1), rset.getString(2));
+            }
+        }
         return result;
     }
 
-    public static int setUser(int id, String name) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection conn = DriverManager.getConnection(MYSQL_URL);
+    public int setUser(int id, String name) throws ClassNotFoundException, SQLException {
 
-        int result = conn.createStatement().executeUpdate(String.format("INSERT USERS VALUE(%d, '%s')", id, name));
-        conn.close();
+        int result;
 
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             // FIXME SQLインジェクション対策 cacheしとく
+             PreparedStatement pstmt = conn.prepareStatement("INSERT USERS VALUE(?, ?)")) {
+
+            pstmt.setInt(1, id);
+            pstmt.setString(2, name);
+            result = pstmt.executeUpdate();
+        }
+        System.out.println(result);
         return result;
     }
 }
