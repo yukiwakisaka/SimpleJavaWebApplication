@@ -1,16 +1,21 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: yuki.wakisaka
-  Date: 2017/04/11
-  Time: 11:28
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
+<%@ page import="beans.*" %>
+<%@ page import="java.util.List" %>
+
+<% List<UserBean> users = (List<UserBean>) request.getAttribute("users"); %>
+
+<!DOCTYPE html>
+<html lang="ja">
 <body>
 
+<h2>Users</h2>
+<p><a href="/add-user">Add New User</a></p>
+
+<% for (UserBean u : users) {%>
+id: <%=u.getId()%>
+<br>
+name: <%=u.getName()%>
+<br><br>
+<% } %>
 </body>
 </html>
