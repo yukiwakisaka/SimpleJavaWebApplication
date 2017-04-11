@@ -1,3 +1,5 @@
+package servlets;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,12 +11,12 @@ import java.io.IOException;
 /**
  * @author yuki.wakisaka
  */
-@WebServlet("/jsp")
-public class JspServlet extends HttpServlet {
+@WebServlet("/css")
+public class CssServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher rd = req.getRequestDispatcher("./html/add-user.jsp");
+        RequestDispatcher rd = req.getRequestDispatcher("./html/css.html");
         rd.forward(req, resp);
     }
 }
-

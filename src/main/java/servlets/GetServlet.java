@@ -1,3 +1,7 @@
+package servlets;
+
+import repositories.DBAccessor;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -38,7 +42,7 @@ public class GetServlet extends HttpServlet {
         }
 
         out.println("<!DOCTYPE html>");
-        out.println("<html lang='ja'>");
+        out.println("<html lang=\"ja\">");
         out.println("<body>");
         if (exception != null){
             out.println("<p>");
@@ -48,7 +52,7 @@ public class GetServlet extends HttpServlet {
         out.println("<h2>");
         out.println("Users");
         out.println("</h2>");
-        out.println("<p><a href='/add-user'>Add New User</a></p>");
+        out.println("<p><a href=\"/add-user\">Add New User</a></p>");
         for (Map.Entry u : users.entrySet()) {
             out.println("id: ");
             out.println(u.getKey());

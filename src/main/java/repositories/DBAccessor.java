@@ -1,3 +1,5 @@
+package repositories;
+
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,8 +30,8 @@ public class DBAccessor {
         Map<Integer, String> result = new HashMap<Integer, String>();
 
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement stmt = conn.createStatement()) {
-            ResultSet rset = stmt.executeQuery("SELECT * FROM users;");
+             Statement stmt = conn.createStatement();
+             ResultSet rset = stmt.executeQuery("SELECT * FROM users;")) {
             while (rset.next()) {
                 result.put(rset.getInt(1), rset.getString(2));
             }
