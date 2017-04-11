@@ -12,8 +12,8 @@ public class DBAccessor {
 
     private static final DBAccessor instance = new DBAccessor();
 
-    //static final String URL = System.getenv().getOrDefault("URL", "jdbc:mysql://localhost:3306/17training");
-    private static final String URL = System.getProperty("mysql.url", "jdbc:mysql://localhost:3306/17training"); // TODO javaコマンドの引数を取得可能 -Dmysql.url=xxxxxxx
+    //static final String URL = System.getenv().getOrDefault("MYSQL_URL", "jdbc:mysql://localhost:3306/17training");
+    private static final String URL = System.getProperty("mysql.url", "jdbc:mysql://localhost:3306/17training");
     private static final String USER = System.getProperty("mysql.user", "root");
     private static final String PASSWORD = System.getProperty("mysql.password", "");
 

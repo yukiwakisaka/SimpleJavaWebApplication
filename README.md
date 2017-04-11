@@ -7,11 +7,9 @@
 > insert users value(0, "YourName");
 ```
 
-## 環境変数
-` export MYSQL_URL=jdbc:mysql://localhost:3306/17training?user=root&password= `
-
 ## 実行
-`mvn tomcat7:exec`
+`mvn -Dmysql.url=jdbc:mysql://localhost:3306/17training -Dmysql.user=root -Dmysql.password= tomcat7:run`
+MySQLのdatabase名、user、passwordは適宜変更してください
 
 ## パッケージング
 `mvn package`
