@@ -8,9 +8,6 @@ ipaddr="192.168.100.10"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "bento/centos-6.7"
-#  config.trigger.after :up do
-#    run_remote "sudo yum update; sudo yum install -y kernel-devel-$(uname -r) gcc"
-#  end
   config.vm.hostname = vmname
   config.vm.network :private_network, ip: ipaddr
   config.vm.network :forwarded_port, host: 8080, guest: 8080
