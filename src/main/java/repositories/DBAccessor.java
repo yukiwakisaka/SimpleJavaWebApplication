@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import static repositories.DBConfig.*;
+
 /**
  * @author yuki.wakisaka
  */
@@ -12,16 +14,19 @@ public class DBAccessor {
 
     private static final DBAccessor instance = new DBAccessor();
 
-    //static final String URL = System.getenv().getOrDefault("MYSQL_URL", "jdbc:mysql://localhost:3306/17training");
-    private static final String URL = System.getProperty("mysql.url", "jdbc:mysql://localhost:3306/17training");
-    private static final String USER = System.getProperty("mysql.user", "root");
-    private static final String PASSWORD = System.getProperty("mysql.password", "");
-
-    private Logger logger = Logger.getLogger(this.getClass().getSimpleName());
+    private static Logger logger = Logger.getLogger("DBAccessor");
+//    private static Logger logger = Logger.getLogger(this.getClass().getSimpleName());
 
 
     public static DBAccessor getInstance() {
         return instance;
+    }
+
+    private static Connection getConnection() throws SQLException {
+        logger.info(URL);
+        logger.info(USER);
+        logger.info(PASSWORD);
+        return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
     public Map<Integer, String> getUsers() throws ClassNotFoundException, SQLException {
@@ -29,7 +34,7 @@ public class DBAccessor {
         //Class.forName("com.mysql.jdbc.Driver"); // javaのversionによって要らない
         Map<Integer, String> result = new HashMap<Integer, String>();
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rset = stmt.executeQuery("SELECT * FROM users;")) {
             while (rset.next()) {
@@ -43,7 +48,7 @@ public class DBAccessor {
 
         int result;
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement("INSERT USERS VALUE(?, ?);")) {
 
             pstmt.setInt(1, id);

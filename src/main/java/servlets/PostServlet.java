@@ -81,14 +81,15 @@ public class PostServlet extends HttpServlet {
             resp.setStatus(500);
         } catch (SQLException | NumberFormatException e) {
             logger.warning(e.getMessage());
+            resp.setStatus(400);
             try (PrintWriter out = resp.getWriter();) {
                 out.println("<!DOCTYPE html>");
                 out.println("<html lang=\"ja\">");
                 out.println("<body>");
-                out.println("<p>Update Failed!</p>");
+                out.println("<p>Failed to Insert!</p>");
                 out.println("<p>cause: " + e.getMessage() + "</p>");
                 out.println("<h2>");
-                out.println("Added User");
+                out.println("Invalid Data");
                 out.println("</h2>");
                 out.println("<p>" + id + "</p>");
                 out.println("<p>" + name + "</p>");
