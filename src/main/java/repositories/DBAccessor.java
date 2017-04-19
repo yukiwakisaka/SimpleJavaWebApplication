@@ -21,9 +21,7 @@ public class DBAccessor {
     }
 
     private static Connection getConnection() throws SQLException {
-        logger.info(URL);
-        logger.info(USER);
-        logger.info(PASSWORD);
+        logger.info(String.format("New Connection: %s?user=%s&password=%s", URL, USER, PASSWORD));
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
@@ -35,6 +33,7 @@ public class DBAccessor {
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rset = stmt.executeQuery("SELECT * FROM users;")) {
+            conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             while (rset.next()) {
                 result.put(rset.getInt(1), rset.getString(2));
             }
@@ -48,7 +47,7 @@ public class DBAccessor {
 
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement("INSERT USERS VALUE(?, ?);")) {
-
+            conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             pstmt.setInt(1, id);
             pstmt.setString(2, name);
             logger.info(pstmt.toString());
