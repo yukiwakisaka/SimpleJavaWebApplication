@@ -21,18 +21,18 @@ public class DBAccessor {
     }
 
     private static Connection getConnection() throws SQLException {
-        logger.info(String.format("New Connection: %s?user=%s&password=%s", URL, USER, PASSWORD));
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        logger.info("Start Connection: " + getUrl());
+        return DriverManager.getConnection(getUrl(), getUser(), getPassword());
     }
 
-    public Map<Integer, String> getUsers() throws ClassNotFoundException, SQLException {
+    public Map<Integer, String> getUsers() throws SQLException {
 
         //Class.forName("com.mysql.jdbc.Driver"); // javaのversionによって要らない
-        Map<Integer, String> result = new HashMap<Integer, String>();
+        Map<Integer, String> result = new HashMap<>();
 
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement();
-             ResultSet rset = stmt.executeQuery("SELECT * FROM users;")) {
+             ResultSet rset = stmt.executeQuery("SELECT * FROM USERS;")) {
             conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             while (rset.next()) {
                 result.put(rset.getInt(1), rset.getString(2));
@@ -41,7 +41,7 @@ public class DBAccessor {
         return result;
     }
 
-    public int setUser(int id, String name) throws ClassNotFoundException, SQLException {
+    public int setUser(int id, String name) throws SQLException {
 
         int result;
 
@@ -50,7 +50,6 @@ public class DBAccessor {
             conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             pstmt.setInt(1, id);
             pstmt.setString(2, name);
-            logger.info(pstmt.toString());
             result = pstmt.executeUpdate();
         }
         return result;
