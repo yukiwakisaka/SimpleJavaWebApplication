@@ -1,5 +1,7 @@
 package repositories;
 
+import util.Logger;
+
 /**
  * @author yuki.wakisaka
  */
@@ -14,7 +16,10 @@ class DBConfig {
     private static String user;
     private static String password;
 
+    private static Logger logger = Logger.getLogger(DBConfig.class.getSimpleName());
+
     static {
+        logger.info("Database configuration were loaded from " + CONF.name());
         switch (CONF) {
             case ENV:
                 url = System.getenv().get("MYSQL_URL");
@@ -23,9 +28,10 @@ class DBConfig {
                 break;
             case SYSTEM:
                 url = System.getProperty("mysql.url", "");
-                user = System.getProperty("mysql.uer", "");
+                user = System.getProperty("mysql.user", "");
                 password = System.getProperty("mysql.password", "");
                 break;
+            case DEFAULT:
             case RESOURCE:
                 url = java.util.ResourceBundle.getBundle(RES).getString("mysql.url");
                 user = java.util.ResourceBundle.getBundle(RES).getString("mysql.user");
@@ -33,6 +39,7 @@ class DBConfig {
                 break;
             default:
         }
+        logger.info(url + "?user=" + user + "&password=" + password);
     }
 
     public static String getUrl() {
@@ -61,11 +68,11 @@ enum DBConf {
     }
 
     public static DBConf get(String dbconf) {
-        if (dbconf == null) return RESOURCE;
+        if (dbconf == null) return DEFAULT;
 
         DBConf cf = DEFAULT;
         for (DBConf c : DBConf.values()) {
-            if (dbconf.equals(c.name())) {
+            if (dbconf.equals(c.dbconf)) {
                 cf = c;
                 break;
             }
