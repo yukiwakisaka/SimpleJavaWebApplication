@@ -9,6 +9,7 @@ import java.util.Map;
 
 import util.Logger;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -50,8 +51,8 @@ public class PostServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String id = "";
-        String name = "";
+        String id;
+        String name;
         resp.setContentType("text/html; charset=utf-8");
 
         try {
@@ -59,46 +60,11 @@ public class PostServlet extends HttpServlet {
             id = body.get("id")[0];
             name = body.get("name")[0];
             dbAccessor.setUser(Integer.parseInt(id), name);
-
-            try (PrintWriter out = resp.getWriter();) {
-                out.println("<!DOCTYPE html>");
-                out.println("<html lang=\"ja\">");
-                out.println("<body>");
-                out.println("<h2>");
-                out.println("Added User");
-                out.println("</h2>");
-                out.println("<p>" + id + "</p>");
-                out.println("<p>" + name + "</p>");
-                out.println("<p><a href=\"/add-user\">Add Another User</a></p>");
-                out.println("<p><a href=\"/users\">See All Users</a></p>");
-                out.println("</body>");
-                out.println("</html>");
-            } catch (IOException ioe) {
-                logger.warning(ioe.getMessage());
-                throw ioe;
-            }
         } catch (SQLException | NumberFormatException e) {
             logger.warning(e.getMessage());
             resp.setStatus(400);
-            try (PrintWriter out = resp.getWriter();) {
-                out.println("<!DOCTYPE html>");
-                out.println("<html lang=\"ja\">");
-                out.println("<body>");
-                out.println("<p>Failed to Insert!</p>");
-                out.println("<p>cause: " + e.getMessage() + "</p>");
-                out.println("<h2>");
-                out.println("Invalid Data");
-                out.println("</h2>");
-                out.println("<p>" + id + "</p>");
-                out.println("<p>" + name + "</p>");
-                out.println("<p><a href=\"/add-user\">Add Another User</a></p>");
-                out.println("<p><a href=\"/users\">See All Users</a></p>");
-                out.println("</body>");
-                out.println("</html>");
-            } catch (IOException ioe) {
-                logger.warning(ioe.getMessage());
-                throw ioe;
-            }
         }
+        RequestDispatcher rd = req.getRequestDispatcher("./html/add-user.html");
+        rd.forward(req, resp);
     }
 }
