@@ -4,7 +4,8 @@ package repositories;
  * @author yuki.wakisaka
  */
 class DBConfig {
-    private DBConfig(){};
+    private DBConfig() {
+    }
 
     private static final DBConf CONF = DBConf.get(System.getProperty("dbconf"));
     private static final String RES = "config";

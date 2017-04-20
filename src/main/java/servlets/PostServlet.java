@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.Map;
-import java.util.logging.Logger;
+
+import util.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -76,9 +77,6 @@ public class PostServlet extends HttpServlet {
                 logger.warning(ioe.getMessage());
                 throw ioe;
             }
-        } catch (ClassNotFoundException e) {
-            logger.warning(e.getMessage());
-            resp.setStatus(500);
         } catch (SQLException | NumberFormatException e) {
             logger.warning(e.getMessage());
             resp.setStatus(400);

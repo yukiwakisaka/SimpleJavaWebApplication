@@ -3,8 +3,8 @@ package repositories;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
+import util.Logger;
 import static repositories.DBConfig.*;
 
 /**

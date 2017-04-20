@@ -1,7 +1,10 @@
 package servlets;
 
-import beans.UserBean;
-import repositories.DBAccessor;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,12 +12,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import beans.UserBean;
+import repositories.DBAccessor;
 
 /**
  * @author yuki.wakisaka
@@ -33,8 +33,6 @@ public class JspServlet extends HttpServlet {
             for (Map.Entry<Integer, String> u : dbAccessor.getUsers().entrySet()) {
                 users.add(new UserBean(u.getKey(), u.getValue()));
             }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         }
