@@ -3,9 +3,9 @@ SimpleJavaWebApplication
 
 Requirements
 ---
-- Mysql >5.x (ex. 5.7)
-- JDK 1.7 or 1.8
-- Tomcat >7.0.47
+- MySQL >5.x (ex. 5.7)
+- JDK >1.8
+- Tomcat >7.x
 - Maven >3.3.9
 - （Vagrant >1.9.3）
 
@@ -13,7 +13,7 @@ Requirements
 手順
 ---
 
-## MySql
+### MySql
 ```
 $ sudo mysql.server start
 $ mysql -u root -p
@@ -24,18 +24,18 @@ $ mysql -u root -p
 $ sudo mysql.server stop
 ```
 
-## 実行
-### config.propertiesを用いる場合
+### 実行
+#### config.propertiesを用いる場合
 ```
 mvn tomcat7:run
 ```
 
-### 実行時の引数を用いる場合
+#### 実行時の引数を用いる場合
 ```
 $ mvn -Ddbconf=SYS -Dmysql.url=jdbc:mysql://localhost:3306/training -Dmysql.user=root -Dmysql.password=[password] tomcat7:run
 ```
 
-### 環境変数を用いる場合
+#### 環境変数を用いる場合
 ```
 $ export MYSQL_URL=jdbc:mysql://localhost:3306/training
 $ export MYSQL_USER=root
@@ -45,25 +45,24 @@ $ mvn -Ddbconf=ENV tomcat7:run
 
 MySQLのdatabase名、user、passwordは適宜変更してください
 
-## アクセス
+### アクセス
  http://localhost:8080
 
-## パッケージング
+### パッケージング
 ```
 $ mvn package
 ```
 
 
-
 Vagrantを使う場合
 ---
 
-## Vagrant
+### Vagrant
 ```
 $ vagrant up; vagrant provision; vagrant reload
 ```
 
-## MySql
+### MySql
 ```
 $ vagrant ssh
 $ grep 'temporary password' /var/log/mysqld.log
@@ -76,17 +75,18 @@ $ mysql -u root -p
 > insert users value(0, "YourName");
 ```
 
-## 実行
+### 実行
 ```
 $ cd /vagrant/
-$ mvn -Dmysql.url=jdbc:mysql://localhost:3306/training -Dmysql.user=root -Dmysql.password=[password] tomcat7:run
+$ export MYSQL_PASSWORD=[password]
+$ mvn -Ddbconf=ENV tomcat7:run
 ```
-MySQLのdatabase名、user、passwordは適宜変更してください
 
-## アクセス
+### アクセス
  http://localhost:8080
 
-## パッケージング
+### パッケージング
 ```
+$ cd /vagrant/
 $ mvn package
 ```
